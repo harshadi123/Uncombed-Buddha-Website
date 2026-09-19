@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mic Drop (2024) — Uncombed Buddha</title>
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  /* ============ FILM DETAIL PAGE ============ */
+  .film-hero{
+    padding: 140px 0 80px;
+    border-bottom: 1px solid var(--line);
+  }
+  .film-hero .wrap{
+    display:grid;
+    grid-template-columns: 340px 1fr;
+    gap: 56px;
+    align-items:start;
+  }
+  .film-poster{
+    aspect-ratio: 2/3;
+    background: var(--ink);
+    overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    position: sticky; top: 100px;
+  }
+  .film-poster img{ width:100%; height:100%; object-fit:cover; }
+  .film-poster.placeholder{
+    background: linear-gradient(160deg, var(--ink), var(--orange-deep));
+    color: var(--paper);
+    padding: 32px;
+    text-align:center;
+  }
+  .film-poster.placeholder .ph-title{
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 500;
+  }
+  .film-poster.placeholder .ph-note{
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: rgba(251,244,232,0.55);
+    margin-top: 16px;
+  }
+  .film-back{
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--smoke);
+    display:inline-block;
+    margin-bottom: 24px;
+  }
+  .film-back:hover{ color: var(--orange-deep); }
+  .film-hero h1{
+    font-weight: 500;
+    font-size: clamp(32px, 4.4vw, 54px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+  .film-tagline{
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--smoke);
+    margin-bottom: 32px;
+  }
+  .film-meta-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 32px;
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 32px;
+  }
+  .film-meta-grid div span{
+    display:block;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--smoke);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .film-meta-grid div strong{
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--charcoal);
+  }
+  .film-synopsis{
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 60ch;
+    margin-bottom: 40px;
+  }
+  .film-section-label{
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--orange-deep);
+    margin-bottom: 16px;
+  }
+  .film-recognition{
+    list-style:none;
+    margin-bottom: 40px;
+  }
+  .film-recognition li{
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--charcoal);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .film-imdb{
+    display:inline-flex;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    color: var(--ink);
+  }
+  .film-imdb:hover{ background: var(--ink); color: var(--paper); }
+  @media (max-width: 760px){
+    .film-hero .wrap{ grid-template-columns: 1fr; }
+    .film-poster{ position:static; max-width: 280px; margin: 0 auto; }
+  }
+
+  /* ============ FILMS ARCHIVE PAGE ============ */
+  .archive-hero{
+    padding: 140px 0 60px;
+  }
+  .archive-hero h1{
+    font-weight: 500;
+    font-size: clamp(36px, 5vw, 64px);
+    letter-spacing: -0.01em;
+  }
+  .archive-hero p{
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--smoke);
+    margin-top: 16px;
+    max-width: 50ch;
+  }
+  .poster-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    padding-bottom: 100px;
+  }
+  .poster-card{ display:block; }
+  .poster-card .film-poster{ aspect-ratio: 2/3; position:static; margin-bottom: 14px; }
+  .poster-card .film-poster.placeholder .ph-title{ font-size: 16px; }
+  .poster-card h3{
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    margin-bottom: 4px;
+  }
+  .poster-card .poster-meta{
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    color: var(--smoke);
+  }
+  @media (max-width: 900px){
+    .poster-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px){
+    .poster-grid{ grid-template-columns: 1fr 1fr; gap: 18px; }
+  }
+</style>
+<script>
+(function(){
+  var r=document.documentElement,s=null;
+  try{ s=localStorage.getItem('ub-theme'); }catch(e){}
+  if(s) r.setAttribute('data-theme',s);
+})();
+</script>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="../index.html" class="nav-mark">
+      <img src="../assets/img/img-001-9cdd4d6c5e20.svg" alt="Uncombed Buddha" width="26" height="16" style="width:26px;height:auto;flex-shrink:0;" loading="lazy" decoding="async">
+      <img class="nav-word" src="../assets/img/img-002-5e29ea2b6a8f.png" alt="Uncombed Buddha"><img class="nav-word nav-word--ink" style="display:none" src="../assets/img/img-003-aff7f9f98f29.png" alt="">
+    </a>
+    <div class="nav-links"><a href="../index.html#manifesto">Manifesto</a><a href="../index.html#about">About</a><a href="../index.html#film">Film</a><a href="../index.html#music">Music</a><a href="../index.html#community">Community</a><a href="../index.html#team">Team</a><a href="../index.html#journal">Press</a><a href="../merch.html">Merch</a><a href="../index.html#contact">Contact</a></div><button class="theme-toggle" type="button" aria-label="Switch between dark and light mode"><svg class="ico-moon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z" fill="currentColor"/></svg><svg class="ico-sun" style="display:none" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.6" fill="currentColor"/><g stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><line x1="12" y1="1.8" x2="12" y2="4.4"/><line x1="12" y1="19.6" x2="12" y2="22.2"/><line x1="1.8" y1="12" x2="4.4" y2="12"/><line x1="19.6" y1="12" x2="22.2" y2="12"/><line x1="4.8" y1="4.8" x2="6.6" y2="6.6"/><line x1="17.4" y1="17.4" x2="19.2" y2="19.2"/><line x1="19.2" y1="4.8" x2="17.4" y2="6.6"/><line x1="6.6" y1="17.4" x2="4.8" y2="19.2"/></g></svg></button><button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button><img class="flag-pin" src="../assets/img/img-004-2f2f6a5b1ecc.png" alt="India" width="20" height="20"></div></nav>
+
+
+
+<section class="film-hero">
+  <div class="wrap">
+    <div class="film-poster"><img src="../assets/img/img-060-ccb405b9db4a.jpg" alt="Mic Drop official poster" loading="lazy" decoding="async"></div>
+    <div>
+      <a href="../index.html#film" class="film-back">← All films</a>
+      <h1>Mic Drop</h1>
+      <p class="film-tagline">2024 · Short Documentary · Observational</p>
+
+      <div class="film-meta-grid">
+        <div><span>Director</span><strong>Kallol Mukherjee</strong></div>
+        <div><span>Language</span><strong>Bundelkhandi, Hindi</strong></div>
+        <div><span>Countries of production</span><strong>India</strong></div>
+        <div><span>Year</span><strong>2024</strong></div>
+      </div>
+
+      <p class="film-synopsis">A young rapper works to bring the Bundelkhandi language into his music. Co-produced with the Public Service Broadcasting Trust.</p>
+      
+    <div class="film-section-label">Labs, festivals &amp; awards</div>
+    <ul class="film-recognition"><li>Premiere, DokuBaku International Documentary Film Festival</li><li>Dharamshala International Film Festival (DIFF)</li><li>Roma International Documentary Festival (RIDF)</li><li>IFFSA Toronto</li><li>New York Indian Film Festival (NYIFF)</li></ul>
+      <div class="film-links"><a href="https://www.imdb.com/title/tt31146224/" class="film-link" target="_blank" rel="noopener"><svg class="brand" width="32" height="16" viewBox="0 0 64 32" aria-hidden="true"><rect width="64" height="32" rx="5" fill="#F5C518"/><text x="32" y="22" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#000">IMDb</text></svg><span>IMDb</span></a><a href="https://letterboxd.com/film/mic-drop-2024/" class="film-link" target="_blank" rel="noopener"><svg class="brand" width="32" height="16" viewBox="0 0 64 32" aria-hidden="true"><circle cx="18" cy="16" r="11" fill="#FF8000"/><circle cx="32" cy="16" r="11" fill="#00E054" fill-opacity="0.92"/><circle cx="46" cy="16" r="11" fill="#40BCF4" fill-opacity="0.92"/></svg><span>Letterboxd</span></a><a href="https://www.youtube.com/watch?v=dh7azCLhOiQ" class="film-link" target="_blank" rel="noopener"><svg class="brand" width="32" height="16" viewBox="0 0 64 32" aria-hidden="true"><rect x="4" y="4" width="56" height="24" rx="7" fill="#FF0000"/><path d="M27 11.5 L39 16 L27 20.5 Z" fill="#fff"/></svg><span>Trailer</span></a></div>
+      <div class="film-trailer"><iframe src="https://www.youtube-nocookie.com/embed/dh7azCLhOiQ?rel=0" title="Trailer" loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    </div>
+  </div>
+</section>
+
+<div class="accent-band">
+  <div class="wrap">
+    <img src="../assets/img/img-057-44262c98e80c.svg" alt="Uncombed Buddha" width="34" height="21" style="width:34px;height:auto;" loading="lazy" decoding="async">
+    <span>uncombed buddha &mdash; with love from India</span>
+  </div>
+</div>
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        uncombed buddha
+        <p></p>
+      </div>
+      <div class="footer-col">
+        <h4>Studio</h4>
+        <a href="../index.html#film">Film</a>
+        <a href="../index.html#music">Music</a>
+        <a href="../index.html#team">Team</a>
+      </div>
+      <div class="footer-col">
+        <h4>More</h4>
+        <a href="../index.html#journal">Press</a>
+        <a href="../merch.html">Merch</a>
+        <a href="../index.html#contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Elsewhere</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Vimeo</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Uncombed Buddha Studio</span>
+      <span>Built with care, mostly undone</span>
+    </div>
+  </div>
+</footer>
+<script>
+  (function(){
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var heroVideo = document.querySelector('.hero-figure video.art');
+    if (heroVideo && prefersReduced) { heroVideo.pause(); heroVideo.removeAttribute('autoplay'); }
+    var targets = document.querySelectorAll('.reveal, .reveal-stagger');
+
+    if (prefersReduced || !('IntersectionObserver' in window)) {
+      targets.forEach(function(el){ el.classList.add('is-visible'); });
+      return;
+    }
+
+    targets.forEach(function(el){
+      if (el.classList.contains('reveal-stagger')) {
+        Array.prototype.forEach.call(el.children, function(child, i){
+          child.style.setProperty('--stagger-i', i);
+        });
+      }
+    });
+
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    targets.forEach(function(el){ io.observe(el); });
+
+    // Journal category filter
+    var filterTabs = document.querySelectorAll('.filter-tab');
+    var journalCards = document.querySelectorAll('.journal-card');
+    filterTabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        filterTabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        var filter = tab.getAttribute('data-filter');
+        journalCards.forEach(function(card){
+          var types = (card.getAttribute('data-type') || '').split(' ');
+          var show = filter === 'all' || types.indexOf(filter) !== -1;
+          card.classList.toggle('is-hidden', !show);
+        });
+      });
+    });
+  })();
+</script>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged image">
+  <button class="lightbox-close" type="button" aria-label="Close">&times;</button>
+  <img src="" alt="" loading="lazy" decoding="async">
+  <span class="lightbox-cap"></span>
+</div>
+
+<script>
+(function(){
+  var box=document.getElementById('lightbox'); if(!box) return;
+  var pic=box.querySelector('img'), cap=box.querySelector('.lightbox-cap');
+  function close(){ box.classList.remove('is-open'); document.body.style.overflow=''; }
+  document.addEventListener('click',function(e){
+    var t=e.target.closest('.film-hero .film-poster img, .fest-logo img');
+    if(t){ e.preventDefault(); pic.src=t.src; pic.alt=t.alt||''; cap.textContent=t.alt||'';
+           box.classList.add('is-open'); document.body.style.overflow='hidden'; return; }
+    if(e.target.closest('.lightbox-close')||e.target===box) close();
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+})();
+</script>
+
+
+<script>
+(function(){
+  var root=document.documentElement, saved=null;
+  try{ saved=localStorage.getItem('ub-theme'); }catch(e){}
+  if(saved) root.setAttribute('data-theme',saved);
+  function label(){
+    var t = root.getAttribute('data-theme')==='light' ? 'Dark' : 'Light';
+  }
+  label();
+  document.querySelectorAll('.theme-toggle').forEach(function(b){
+    b.addEventListener('click',function(){
+      root.setAttribute('data-theme', root.getAttribute('data-theme')==='light'?'dark':'light');
+      try{ localStorage.setItem('ub-theme', root.getAttribute('data-theme')); }catch(e){}
+      label();
+    });
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  var btn = document.querySelector('.nav-toggle');
+  if (!btn) return;
+  function close(){
+    document.body.classList.remove('menu-open');
+    btn.setAttribute('aria-expanded','false');
+  }
+  btn.addEventListener('click', function(){
+    var open = document.body.classList.toggle('menu-open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.querySelectorAll('.nav-links a').forEach(function(a){
+    a.addEventListener('click', close);
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  window.addEventListener('resize', function(){ if (window.innerWidth > 860) close(); });
+})();
+</script>
+<script>
+(function(){
+  // autoplay on a base64 source can stall or be blocked; nudge each clip when it is on screen
+  var vids = document.querySelectorAll('.section-video video');
+  if (!vids.length) return;
+  function kick(v){
+    if (!v.paused) return;
+    var p = v.play();
+    if (p && p.catch) p.catch(function(){ /* blocked: leave the first frame showing */ });
+  }
+  vids.forEach(function(v){
+    v.muted = true;                 // some browsers only honour this set in JS
+    v.setAttribute('playsinline','');
+    if (v.readyState >= 2) kick(v);
+    v.addEventListener('loadeddata', function(){ kick(v); });
+    v.addEventListener('canplay', function(){ kick(v); });
+  });
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) kick(e.target); });
+    }, { threshold: 0.15 });
+    vids.forEach(function(v){ io.observe(v); });
+  }
+  document.addEventListener('click', function once(){
+    vids.forEach(kick);
+    document.removeEventListener('click', once);
+  });
+})();
+</script>
+</body>
+</html>
